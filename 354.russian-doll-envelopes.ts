@@ -6,25 +6,26 @@
 
 // @lc code=start
 
-const lis = (arr: number[]): number => {
-  const len = arr.length;
-  let lis = Array(len).fill(1);
-
-  for (let i = 1; i < len; i++) {
-    for (let j = 0; j < i; j++) {
-      if (arr[i] > arr[j] && lis[i] < lis[j] + 1) {
-        lis[i] = lis[j] + 1;
-      }
-    }
-  }
-
-  return Math.max(...lis);
-};
-
 function maxEnvelopes(envelopes: number[][]): number {
-  let sorted = envelopes.sort((a, b) =>
+  envelopes = envelopes.sort((a, b) =>
     a[0] !== b[0] ? a[0] - b[0] : b[1] - a[1]
   );
-  return lis(sorted.map((x) => x[1]));
+  let len = envelopes.length,
+    dp = [];
+  for (let i = 0; i < len; i++) {
+    let height = envelopes[i][1],
+      left = 0,
+      right = dp.length;
+    while (left < right) {
+      let mid = (left + right) >> 1;
+      if (dp[mid] >= height) {
+        right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+    dp[left] = height;
+  }
+  return dp.length;
 }
 // @lc code=end
