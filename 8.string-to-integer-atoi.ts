@@ -6,8 +6,11 @@
 
 // @lc code=start
 function myAtoi(s: string): number {
-  s = s.trim();
-  if (s.length < 2) return 0;
-  return parseInt(s);
+  const MIN_VALUE = Math.pow(-2, 31);
+  const MAX_VALUE = Math.pow(2, 31) - 1;
+  const result = Number(s.trimStart().match(/^[-\+]?\d+/));
+  if (result < MIN_VALUE) return MIN_VALUE;
+  if (result > MAX_VALUE) return MAX_VALUE;
+  return result;
 }
 // @lc code=end
